@@ -20,6 +20,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 
 const formSchema = z
   .object({
@@ -61,6 +62,7 @@ export const SignUpView = () => {
       {
         onSuccess: () => {
           setPending(false);
+          router.push("/");
         },
         onError: (error) => {
           setPending(false);
@@ -189,7 +191,7 @@ export const SignUpView = () => {
                       })
                     }
                   >
-                    Google
+                    <FaGoogle/>
                   </Button>
                   <Button
                     variant="outline"
@@ -202,7 +204,8 @@ export const SignUpView = () => {
                       })
                     }
                   >
-                    Github
+                    <FaGithub className="mr-2" />
+                    {/* GitHub */}
                   </Button>
                 </div>
                 <div className="text-center tex-sm">
