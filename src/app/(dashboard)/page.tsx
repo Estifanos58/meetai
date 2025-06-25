@@ -12,7 +12,11 @@ const Page = async () => {
         redirect("/sign-in")
     }
     return (
-        <HomeView/>
+        // <HomeView/>
+        <div>
+            <h1 className="text-2xl font-bold">Welcome to the Dashboard</h1>
+            <p className="mt-4">This is a placeholder for the dashboard content.</p>
+        </div>
     ) 
 }
 
