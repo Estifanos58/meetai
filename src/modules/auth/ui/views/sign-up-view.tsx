@@ -21,15 +21,19 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 
-const formSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(1, "Password is required"),
-  confirmPassword: z.string().min(1, "Confirm Password is required"),
-}).refine((data) => data.password === data.confirmPassword, { message: "Passwords must match", path: ["confirmPassword"] });
+const formSchema = z
+  .object({
+    name: z.string().min(1, "Name is required"),
+    email: z.string().email("Invalid email address"),
+    password: z.string().min(1, "Password is required"),
+    confirmPassword: z.string().min(1, "Confirm Password is required"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords must match",
+    path: ["confirmPassword"],
+  });
 
 export const SignUpView = () => {
-
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -37,7 +41,7 @@ export const SignUpView = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",   
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -52,11 +56,11 @@ export const SignUpView = () => {
         name: data.name,
         email: data.email,
         password: data.password,
+        callbackURL: '/',
       },
       {
         onSuccess: () => {
           setPending(false);
-          router.push("/");
         },
         onError: (error) => {
           setPending(false);
@@ -74,13 +78,15 @@ export const SignUpView = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 md:p-8">
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col items-center text-center">
-                  <h1 className="text-2xl font-bold">Let&apos;s get started </h1>
+                  <h1 className="text-2xl font-bold">
+                    Let&apos;s get started{" "}
+                  </h1>
                   <p className="text-muted-foreground text-balance">
                     {" "}
                     Create your account
                   </p>
                 </div>
-                 <div className="grid gap-3">
+                <div className="grid gap-3">
                   <FormField
                     control={form.control}
                     name="name"
@@ -172,10 +178,30 @@ export const SignUpView = () => {
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" type="button" className="w-full">
+                  <Button
+                    variant="outline"
+                    type="button"
+                    className="w-full"
+                    onClick={() =>
+                      authClient.signIn.social({
+                        provider: "google",
+                        callbackURL: '/',
+                      })
+                    }
+                  >
                     Google
                   </Button>
-                  <Button variant="outline" type="button" className="w-full">
+                  <Button
+                    variant="outline"
+                    type="button"
+                    className="w-full"
+                    onClick={() =>
+                      authClient.signIn.social({
+                        provider: "github",
+                        callbackURL: '/',
+                      })
+                    }
+                  >
                     Github
                   </Button>
                 </div>

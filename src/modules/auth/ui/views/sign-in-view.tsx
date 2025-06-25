@@ -45,11 +45,11 @@ export const SignInView = () => {
       {
         email: data.email,
         password: data.password,
+        callbackURL: "/",
       },
       {
         onSuccess: () => {
           setPending(false);
-          router.push("/");
         },
         onError: (error) => {
           setPending(false);
@@ -107,7 +107,7 @@ export const SignInView = () => {
                           />
                         </FormControl>
                         <FormMessage />
-                       </FormItem>
+                      </FormItem>
                     )}
                   />
                 </div>
@@ -127,10 +127,28 @@ export const SignInView = () => {
                   </span>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  <Button variant="outline" type="button" className="w-full">
+                  <Button
+                    variant="outline"
+                    type="button"
+                    className="w-full"
+                    onClick={() =>
+                      authClient.signIn.social({
+                        provider: "google",
+                      })
+                    }
+                  >
                     Google
                   </Button>
-                  <Button variant="outline" type="button" className="w-full">
+                  <Button
+                    variant="outline"
+                    type="button"
+                    className="w-full"
+                    onClick={() =>
+                      authClient.signIn.social({
+                        provider: "github",
+                      })
+                    }
+                  >
                     Github
                   </Button>
                 </div>

@@ -1,7 +1,18 @@
-const Home = () => {
-    <div>
-        <h1 className="text-2xl font-bold text-center mt-10">Welcome to the Home Page</h1>
-    </div>
-} 
+import Home from "@/modules/Home/ui/views/home-view";
+import { auth } from "@/lib/auth";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
+const Page = async () => {
+    const session =  await auth.api.getSession({
+        headers: await headers(),
+    });
 
-export default Home;
+    if(!session)  {
+        redirect("/sign-in")
+    }
+    return (
+        <Home/>
+    ) 
+}
+
+export default Page;
