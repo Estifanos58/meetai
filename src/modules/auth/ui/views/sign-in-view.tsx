@@ -17,7 +17,7 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { OctagonAlertIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 
@@ -107,11 +107,11 @@ export const SignInView = () => {
                           />
                         </FormControl>
                         <FormMessage />
-                      </FormItem>
+                       </FormItem>
                     )}
                   />
                 </div>
-                {!error && (
+                {error && (
                   <Alert className="bg-destructive/10 border-none">
                     <OctagonAlertIcon className="h-4 w-4 !text-destructive" />
                     <AlertTitle>{error}</AlertTitle>

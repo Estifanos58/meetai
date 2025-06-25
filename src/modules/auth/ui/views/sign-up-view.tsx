@@ -17,7 +17,7 @@ import { Alert, AlertTitle } from "@/components/ui/alert";
 import { OctagonAlertIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 
@@ -156,14 +156,14 @@ export const SignUpView = () => {
                     )}
                   />
                 </div>
-                {!error && (
+                {error && (
                   <Alert className="bg-destructive/10 border-none">
                     <OctagonAlertIcon className="h-4 w-4 !text-destructive" />
                     <AlertTitle>{error}</AlertTitle>
                   </Alert>
                 )}
                 <Button disabled={pending} className="w-full" type="submit">
-                  Sign In
+                  Sign Up
                 </Button>
                 <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after-flex after-items-center after:border-t">
                   <span className="bg-card text-muted-foreground relative z-10 px-2">
@@ -182,10 +182,10 @@ export const SignUpView = () => {
                 <div className="text-center tex-sm">
                   Don&apos;t have an account?{" "}
                   <Link
-                    href={"/sign-up"}
+                    href={"/sign-in"}
                     className="underline underline-offset-4"
                   >
-                    Sign Up
+                    Sign in
                   </Link>
                 </div>
               </div>
