@@ -10,10 +10,22 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import GeneratedAvatar from "@/components/ui/generated-avatar";
-import { ChevronDownIcon } from "lucide-react";
+import { ChevronDownIcon, CreditCardIcon, LogOutIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 function DashboardUserButton() {
   const { data, isPending } = authClient.useSession();
+  const router = useRouter();
+
+  const onLogOut = async () => {
+    await authClient.signOut({
+      fetchOptions: {
+        onSuccess: () => {
+          router.push("/sign-in");
+        }
+      }
+    });
+  }
 
   if (isPending) {
     return <div>Loading...</div>;
@@ -52,6 +64,15 @@ function DashboardUserButton() {
                 <span className="text-sm font-normal text-muted-foreground truncate">{data?.user.email}</span>
             </div>
         </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="cursor-pointer flex items-center justify-between">
+          Billing
+          <CreditCardIcon className="size-4"/>
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer flex items-center justify-between" onClick={onLogOut}>
+          Logout
+          <LogOutIcon className="size-4"/>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
