@@ -6,7 +6,7 @@ interface Props {
     setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export const DashboardCommand = ({open: setOpen}:Props) => {
+export const DashboardCommand = ({ open, setOpen }: Props) => {
     return (
         <CommandDialog open={open} onOpenChange={setOpen}>
             <CommandInput placeholder="Find a meeting or agent"/>
