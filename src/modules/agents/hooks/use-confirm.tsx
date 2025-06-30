@@ -6,6 +6,7 @@ export const useConfirm = (
   title: string,
   description: string
 ): [() => JSX.Element, () => Promise<unknown>] => {
+
   const [promise, setPromise] = useState<{
     resolve: (value: boolean) => void;
   } | null>(null);
@@ -30,7 +31,7 @@ export const useConfirm = (
     handleClose();
   };
 
-  const ConfirmationDialog = () => {
+  const ConfirmationDialog = () => (
     <ResponsiveDialog
       open={promise !== null}
       onOpenChange={handleClose}
@@ -53,7 +54,7 @@ export const useConfirm = (
         </Button>
       </div>
     </ResponsiveDialog>
-  };
+    )
 
   return [ConfirmationDialog, confirm] ;
 };
