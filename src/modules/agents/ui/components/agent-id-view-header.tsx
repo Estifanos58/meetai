@@ -18,7 +18,7 @@ export const AgentIdViewHeader = ({ agentId, agentName, onEdit, onRemove }: Prop
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink asChild className="font-medium text-xl">
-                            <Link href={"/agent"}>
+                            <Link href={"/agents"}>
                             My Agents
                             </Link>
                         </BreadcrumbLink>
