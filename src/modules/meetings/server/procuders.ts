@@ -9,7 +9,23 @@ import { z } from "zod";
 import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from "../../../../constants";
 import { TRPCError } from "@trpc/server";
+import { meetingsInsertSchema, meetingsUpdateSchema } from "../schemas";
 export const meetingsRouter = createTRPCRouter({
+   create: protectedProcedure
+      .input(meetingsInsertSchema)
+      .mutation(async ({ input, ctx }) => {
+        const { auth } = ctx;
+  
+        const [createdMeeting] = await db
+          .insert(meetings)
+          .values({
+            ...input,
+            userId: auth.user.id,
+          })
+          .returning();
+  
+        return createdMeeting;
+      }),
   getMany: protectedProcedure
     .input(
       z
@@ -63,5 +79,25 @@ export const meetingsRouter = createTRPCRouter({
         }
       return existingMeeting;
     }),  
+
+     updateMeeting: protectedProcedure
+        .input(meetingsUpdateSchema)
+        .mutation(async ({ input, ctx }) => {
+          const [updateMeeting] = await db
+          .update(meetings)
+          .set(input)
+          .where(
+            and(
+              eq(meetings.id, input.id),
+              eq(meetings.userId, ctx.auth.user.id)
+            )
+          ).returning();
+    
+          if(!updateMeeting) {
+             throw new TRPCError({code: "NOT_FOUND", message: "Meeting not found"});
+          }
+    
+          return updateMeeting;
+        })
 
 });
