@@ -131,7 +131,7 @@ export const MeetingForm = ({
               <FormLabel>Agent</FormLabel>
               <FormControl>
                 <CommandSelect
-                  options={(agents.data?.item ?? []).map((agent) => ({
+                  options={(agents.data?.items ?? []).map((agent) => ({
                     id: agent.id,
                     value: agent.id,
                     children: (

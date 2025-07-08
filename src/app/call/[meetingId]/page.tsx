@@ -13,6 +13,7 @@ interface Props {
 
 const Page = async ({ params }: Props) => {
     const { meetingId } = await params;
+    console.log("MEETING ID", meetingId);
     const session = await auth.api.getSession({
         headers: await headers(),
     })
